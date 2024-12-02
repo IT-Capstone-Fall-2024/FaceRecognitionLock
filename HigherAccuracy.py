@@ -11,7 +11,7 @@ broker = "192.168.90.234"
 port = 1883
 client = mqtt.Client(client_id="", userdata=None, protocol=mqtt.MQTTv5)
 client.connect(broker, port)
-topic = "camera/1"
+topic = "lock/1"
 
 # Set frame dimensions
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
@@ -54,13 +54,13 @@ while True:
 
         # Display match status
         if face_match:
-            client.publish(topic, "True", qos=1)
+            client.publish(topic, "unlock", qos=1)
             break
         elif countdown >= 20:
-            client.publish(topic, "False", qos=1)
+            client.publish(topic, "lock", qos=1)
             break
 
-        #cv2.imshow("video", frame)
+        cv2.imshow("video", frame)
 
     # Exit if 'q' key is pressed
     key = cv2.waitKey(1)
